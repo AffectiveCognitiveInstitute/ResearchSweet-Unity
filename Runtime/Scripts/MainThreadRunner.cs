@@ -1,11 +1,14 @@
 using ResearchSweet.Transport.Helpers;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MainThreadRunner : MonoBehaviour, IMainThreadRunner
 {
     private ConcurrentQueue<Action> _actions = new ConcurrentQueue<Action>();
+    private List<FrameAction> _nextFrameActions = new List<FrameAction>();
 
     private static MainThreadRunner _instance;
     public static MainThreadRunner Instance
@@ -14,27 +17,31 @@ public class MainThreadRunner : MonoBehaviour, IMainThreadRunner
         {
             if (_instance == null)
             {
-                try
+                _instance = FindObjectOfType<MainThreadRunner>();
+
+                if (_instance == null)
                 {
-                    var mtr = new GameObject("ResearchSweet_MainThreadRunner");
-                    _instance = mtr.AddComponent<MainThreadRunner>();
+                    GameObject singletonObject = new GameObject(typeof(MainThreadRunner).Name);
+                    _instance = singletonObject.AddComponent<MainThreadRunner>();
+
+                    Debug.LogWarning("MainThreadRunner instance was created automatically.");
                 }
-                catch { }
             }
             return _instance;
         }
     }
 
-    private void Awake()
+    void Awake()
     {
-        if (_instance != null)
+        if (_instance != null && _instance != this)
         {
-            Destroy(this);
+            Debug.LogWarning("Duplicate instance of MainThreadRunner detected! Destroying new instance.");
+            Destroy(gameObject);
+            return;
         }
-        else
-        {
-            _instance = this;
-        }
+
+        _instance = this;
+        DontDestroyOnLoad(gameObject); // Keeps it alive across scenes
     }
 
     public void Enqueue(Action action) => _actions.Enqueue(action);
@@ -46,6 +53,32 @@ public class MainThreadRunner : MonoBehaviour, IMainThreadRunner
             {
                 action?.Invoke();
             }
+        }
+
+        var nextFrameActions = _nextFrameActions.Where(x => x.Frame <= Time.frameCount).ToList();
+        while (nextFrameActions.Count > 0)
+        {
+            var action = nextFrameActions.FirstOrDefault();
+            if (action != null)
+            {
+                action?.Action?.Invoke();
+                nextFrameActions.Remove(action);
+                _nextFrameActions.Remove(action);
+            }
+        }
+    }
+
+    public void EnqueueForNextFrame(Action action) => _nextFrameActions.Add(new FrameAction(action));
+
+    public class FrameAction
+    {
+        public int Frame { get; set; }
+        public Action Action { get; set; }
+
+        public FrameAction(Action action)
+        {
+            Frame = Time.frameCount + 1;
+            Action = action;
         }
     }
 }

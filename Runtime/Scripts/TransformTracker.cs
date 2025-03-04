@@ -10,6 +10,21 @@ public class TransformTracker : BaseTracker
     [HideInInspector]
     public Vector3 Scale { get; private set; }
 
+    void Start()
+    {
+        GameObjectTracker.Instance.TrackObject(this);
+    }
+
+    void OnDisable()
+    {
+        GameObjectTracker.Instance.UntrackObject(this);
+    }
+
+    void OnDestroy()
+    {
+        GameObjectTracker.Instance.UntrackObject(this);
+    }
+
     // Update is called once per frame
     protected override void Update()
     {

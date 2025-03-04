@@ -17,15 +17,35 @@ public class GameObjectTracker : MonoBehaviour, IGameObjectTracker
         {
             if (_instance == null)
             {
-                try
+                _instance = FindObjectOfType<GameObjectTracker>();
+
+                if (_instance == null)
                 {
-                    var mtr = new GameObject("ResearchSweet_GameObjectTracker");
-                    _instance = mtr.AddComponent<GameObjectTracker>();
+                    GameObject singletonObject = new GameObject(typeof(GameObjectTracker).Name);
+                    _instance = singletonObject.AddComponent<GameObjectTracker>();
+
+                    Debug.LogWarning("GameObjectTracker instance was created automatically.");
                 }
-                catch { }
             }
             return _instance;
         }
+    }
+
+    void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Debug.LogWarning("Duplicate instance of GameObjectTracker detected! Destroying new instance.");
+            Destroy(gameObject);
+            return;
+        }
+
+        _instance = this;
+        _timer = new System.Timers.Timer(500);
+        _timer.AutoReset = true;
+        _timer.Elapsed += _timer_Elapsed;
+        _timer.Start();
+        DontDestroyOnLoad(gameObject); // Keeps it alive across scenes
     }
 
     private List<BaseTracker> _trackers = new List<BaseTracker>();
@@ -33,20 +53,15 @@ public class GameObjectTracker : MonoBehaviour, IGameObjectTracker
     private IResearchSweetClient _client;
     private System.Timers.Timer _timer;
 
-    private GameObjectTracker()
-    {
-        _timer = new System.Timers.Timer(100);
-        _timer.AutoReset = true;
-        _timer.Elapsed += _timer_Elapsed;
-        _timer.Start();
-    }
-
     private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
     {
         if (_client != null)
         {
-            _checkTrackers();
-            _handleTransformTrackers();
+            MainThreadRunner.Instance.Enqueue(() =>
+            {
+                _instance._checkTrackers();
+                _instance._handleTransformTrackers();
+            });
         }
     }
 
@@ -55,7 +70,7 @@ public class GameObjectTracker : MonoBehaviour, IGameObjectTracker
         var transforms = _trackers.Where(x => x is TransformTracker).Select(x => (TransformTracker)x).Select(tracker => new TransformTrackerEvent()
         {
             EventDate = tracker.EventDate,
-            InstanceId = tracker.InstanceId,
+            InstanceId = tracker.gameObject.GetInstanceID(),
             Name = tracker.InstanceName,
             Position = tracker.Position,
             Rotation = tracker.Rotation,
