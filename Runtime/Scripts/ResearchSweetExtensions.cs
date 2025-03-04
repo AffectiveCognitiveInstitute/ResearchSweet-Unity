@@ -20,8 +20,9 @@ namespace ResearchSweet
 
         public static InitializeResult Initialize(GameObject target, string apiKey, string endpointUrl = null)
         {
+            var gameObjectTracker = GameObjectTracker.Instance;
             MainThreadRunnerExtensions.RegisterMainThreadRunner(MainThreadRunner.Instance);
-            GameObjectTrackerExtensions.RegisterGameObjectTracker(GameObjectTracker.Instance);
+            GameObjectTrackerExtensions.RegisterGameObjectTracker(gameObjectTracker);
 
             var initResult = ResearchSweetHelpers.InitializeResearchSweet(target, options =>
             {
@@ -35,8 +36,11 @@ namespace ResearchSweet
             });
 
             _client = initResult.Client;
+
             _client.OnConnected += _client_OnConnected;
             _client.OnError += _client_OnError;
+
+            gameObjectTracker.AssignResearchSweetClient(_client);
 
             Debug.Log("[ResearchSweet] connecting...");
             _initTask = _client.InitAsync(exception =>

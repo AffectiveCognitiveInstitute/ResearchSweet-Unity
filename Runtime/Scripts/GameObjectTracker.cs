@@ -17,7 +17,12 @@ public class GameObjectTracker : MonoBehaviour, IGameObjectTracker
         {
             if (_instance == null)
             {
-                _instance = new GameObjectTracker();
+                try
+                {
+                    var mtr = new GameObject("ResearchSweet_GameObjectTracker");
+                    _instance = mtr.AddComponent<GameObjectTracker>();
+                }
+                catch { }
             }
             return _instance;
         }

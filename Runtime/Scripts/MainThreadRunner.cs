@@ -16,7 +16,7 @@ public class MainThreadRunner : MonoBehaviour, IMainThreadRunner
             {
                 try
                 {
-                    var mtr = new GameObject();
+                    var mtr = new GameObject("ResearchSweet_MainThreadRunner");
                     _instance = mtr.AddComponent<MainThreadRunner>();
                 }
                 catch { }
