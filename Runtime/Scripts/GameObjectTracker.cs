@@ -35,7 +35,7 @@ public class GameObjectTracker : MonoBehaviour, IGameObjectTracker
 
     private GameObjectTracker()
     {
-        _timer = new System.Timers.Timer();
+        _timer = new System.Timers.Timer(100);
         _timer.AutoReset = true;
         _timer.Elapsed += _timer_Elapsed;
         _timer.Start();
