@@ -9,6 +9,7 @@ namespace ResearchSweet
 {
     public static class ResearchSweetExtensions
     {
+        public static IResearchSweetClient Client => _client;
         private static ResearchSweetClient _client;
         private static Task _initTask;
 

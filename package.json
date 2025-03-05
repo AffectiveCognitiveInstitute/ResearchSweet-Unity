@@ -1,13 +1,13 @@
 {
   "name": "de.researchsweet.unity",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "displayName": "ResearchSweet Unity Client",
   "description": "A Unitypackage including the ResearchSweet client connector.",
   "unity": "2019.1",
   "unityRelease": "0b5",
-  "documentationUrl": "https://example.com/",
-  "changelogUrl": "https://example.com/changelog.html",
-  "licensesUrl": "https://example.com/licensing.html",
+  "documentationUrl": "https://github.com/AffectiveCognitiveInstitute/ResearchSweet-Unity",
+  "changelogUrl": "https://github.com/AffectiveCognitiveInstitute/ResearchSweet-Unity",
+  "licensesUrl": "https://app.researchsweet.de/license",
   "dependencies": {},
   "keywords": [
     "keyword1",
@@ -16,7 +16,7 @@
   ],
   "author": {
     "name": "Arndt Bieberstein, Stefano Gampe, Benjamin Schnitzer",
-    "email": "unity@example.com",
-    "url": "https://www.unity3d.com"
+    "email": "arndt.bieberstein@hs-offenburg.de",
+    "url": "https://app.researchsweet.de"
   }
 }
