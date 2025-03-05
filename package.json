@@ -1,6 +1,6 @@
 {
   "name": "de.researchsweet.unity",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "displayName": "ResearchSweet Unity Client",
   "description": "A Unity package including the ResearchSweet client connector.",
   "unity": "2019.1",
@@ -8,9 +8,7 @@
   "documentationUrl": "https://github.com/AffectiveCognitiveInstitute/ResearchSweet-Unity",
   "changelogUrl": "https://github.com/AffectiveCognitiveInstitute/ResearchSweet-Unity",
   "licensesUrl": "https://app.researchsweet.de/license",
-  "dependencies": {
-    "de.researchsweet.signalr": "https://github.com/AffectiveCognitiveInstitute/SignalR-Unity.git"
-  },
+  "dependencies": {},
   "keywords": [
     "researchsweet",
     "research",
