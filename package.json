@@ -1,18 +1,20 @@
 {
   "name": "de.researchsweet.unity",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "displayName": "ResearchSweet Unity Client",
-  "description": "A Unitypackage including the ResearchSweet client connector.",
+  "description": "A Unity package including the ResearchSweet client connector.",
   "unity": "2019.1",
   "unityRelease": "0b5",
   "documentationUrl": "https://github.com/AffectiveCognitiveInstitute/ResearchSweet-Unity",
   "changelogUrl": "https://github.com/AffectiveCognitiveInstitute/ResearchSweet-Unity",
   "licensesUrl": "https://app.researchsweet.de/license",
-  "dependencies": {},
+  "dependencies": {
+    "de.researchsweet.signalr": "https://github.com/AffectiveCognitiveInstitute/SignalR-Unity.git"
+  },
   "keywords": [
-    "keyword1",
-    "keyword2",
-    "keyword3"
+    "researchsweet",
+    "research",
+    "unity"
   ],
   "author": {
     "name": "Arndt Bieberstein, Stefano Gampe, Benjamin Schnitzer",
