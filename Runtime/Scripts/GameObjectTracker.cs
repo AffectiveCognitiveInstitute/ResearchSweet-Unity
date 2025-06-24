@@ -67,15 +67,19 @@ public class GameObjectTracker : MonoBehaviour, IGameObjectTracker
 
     private void _handleTransformTrackers()
     {
-        var transforms = _trackers.Where(x => x is TransformTracker).Select(x => (TransformTracker)x).Select(tracker => new TransformTrackerEvent()
-        {
-            EventDate = tracker.EventDate,
-            InstanceId = tracker.gameObject.GetInstanceID(),
-            Name = tracker.InstanceName,
-            Position = tracker.Position,
-            Rotation = tracker.Rotation,
-            Scale = tracker.Scale,
-        }).ToArray();
+        var transforms = _trackers
+            .Where(x => x is TransformTracker)
+            .Select(x => (TransformTracker)x)
+            .Where(x => x.HasChanges)
+            .Select(tracker => new TransformTrackerEvent()
+            {
+                EventDate = tracker.EventDate,
+                InstanceId = tracker.gameObject.GetInstanceID(),
+                Name = tracker.InstanceName,
+                Position = tracker.Position,
+                Rotation = tracker.Rotation,
+                Scale = tracker.Scale,
+            }).ToArray();
 
         if (transforms.Any())
         {

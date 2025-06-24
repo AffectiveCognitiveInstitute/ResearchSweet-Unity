@@ -9,6 +9,7 @@ public class MainThreadRunner : MonoBehaviour, IMainThreadRunner
 {
     private ConcurrentQueue<Action> _actions = new ConcurrentQueue<Action>();
     private List<FrameAction> _nextFrameActions = new List<FrameAction>();
+    private ConcurrentQueue<Action> _postRenderActions = new ConcurrentQueue<Action>();
 
     private static MainThreadRunner _instance;
     public static MainThreadRunner Instance
@@ -68,7 +69,19 @@ public class MainThreadRunner : MonoBehaviour, IMainThreadRunner
         }
     }
 
+    private void OnPostRender()
+    {
+        while (_postRenderActions.Count > 0)
+        {
+            if (_postRenderActions.TryDequeue(out var action))
+            {
+                action?.Invoke();
+            }
+        }
+    }
+
     public void EnqueueForNextFrame(Action action) => _nextFrameActions.Add(new FrameAction(action));
+    public void EnqueueForPostRender(Action action) => _postRenderActions.Enqueue(action);
 
     public class FrameAction
     {

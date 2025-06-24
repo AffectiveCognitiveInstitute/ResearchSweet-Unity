@@ -1,4 +1,5 @@
 using ResearchSweet.Transport;
+using ResearchSweet.Transport.Events;
 using ResearchSweet.Transport.Helpers;
 using System;
 using System.Threading.Tasks;
@@ -13,28 +14,29 @@ namespace ResearchSweet
         private static ResearchSweetClient _client;
         private static Task _initTask;
 
-        public static InitializeResult Initialize(string apiKey, string endpointUrl = null)
+        public static InitializeResult Initialize(string apiKey, string endpointUrl = null, EventChannels channels = null)
         {
             var gameObject = new GameObject();
-            return Initialize(gameObject, apiKey, endpointUrl);
+            return Initialize(gameObject, apiKey, endpointUrl, channels);
         }
 
-        public static InitializeResult Initialize(GameObject target, string apiKey, string endpointUrl = null)
+        public static InitializeResult Initialize(GameObject target, string apiKey, string endpointUrl = null, EventChannels channels = null)
         {
             var gameObjectTracker = GameObjectTracker.Instance;
             MainThreadRunnerExtensions.RegisterMainThreadRunner(MainThreadRunner.Instance);
             GameObjectTrackerExtensions.RegisterGameObjectTracker(gameObjectTracker);
 
             var initResult = ResearchSweetHelpers.InitializeResearchSweet(target, options =>
-            {
-                options.UseUnityHandlers(true)
-                .UseApiKey(apiKey);
-
-                if (!string.IsNullOrEmpty(endpointUrl))
                 {
-                    options.UseUrl(endpointUrl);
-                }
-            });
+                    options.UseUnityHandlers(true)
+                    .UseApiKey(apiKey)
+                    .UseEventChannels(channels);
+
+                    if (!string.IsNullOrEmpty(endpointUrl))
+                    {
+                        options.UseUrl(endpointUrl);
+                    }
+                });
 
             _client = initResult.Client;
 
@@ -64,4 +66,12 @@ namespace ResearchSweet
             return Task.CompletedTask;
         }
     }
+
+    //public class ResearchSweetChannels
+    //{
+    //    public MyQuestionnairesEventChannelSO MyQuestionnairesChanged { get; set; }
+    //    public VariableChangedEventChannelSO VariableChangedEventChannel { get; set; }
+    //    public QuestionnaireChangedEventChannelSO QuestionnaireChangedChannel { get; set; }
+    //    public AvailableQuestionnaireDefinitionsChangedEventChannelSO AvailableQuestionnaireDefinitionsChangedChannel { get; set; }
+    //}
 }

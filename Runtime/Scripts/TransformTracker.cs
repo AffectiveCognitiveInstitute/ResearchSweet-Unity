@@ -10,6 +10,8 @@ public class TransformTracker : BaseTracker
     [HideInInspector]
     public Vector3 Scale { get; private set; }
 
+    public bool HasChanges { get; private set; }
+
     void Start()
     {
         GameObjectTracker.Instance.TrackObject(this);
@@ -25,12 +27,23 @@ public class TransformTracker : BaseTracker
         GameObjectTracker.Instance.UntrackObject(this);
     }
 
-    // Update is called once per frame
-    protected override void Update()
+    public void LateUpdate()
     {
-        base.Update();
-        Position = transform.position;
-        Rotation = transform.rotation;
-        Scale = transform.localScale;
+        HasChanges = false;
+        if (Position != transform.position)
+        {
+            Position = transform.position;
+            HasChanges = true;
+        }
+        if (Rotation != transform.rotation)
+        {
+            Rotation = transform.rotation;
+            HasChanges = true;
+        }
+        if (Scale != transform.localScale)
+        {
+            Scale = transform.localScale;
+            HasChanges = true;
+        }
     }
 }
