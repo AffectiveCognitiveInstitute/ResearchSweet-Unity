@@ -1,5 +1,4 @@
 using ResearchSweet.Transport;
-using ResearchSweet.Transport.Events;
 using ResearchSweet.Transport.Helpers;
 using System;
 using System.Threading.Tasks;
@@ -14,13 +13,13 @@ namespace ResearchSweet
         private static ResearchSweetClient _client;
         private static Task _initTask;
 
-        public static InitializeResult Initialize(string apiKey, string endpointUrl = null, EventChannels channels = null)
+        public static InitializeResult Initialize(string apiKey, string endpointUrl = null)
         {
             var gameObject = new GameObject();
-            return Initialize(gameObject, apiKey, endpointUrl, channels);
+            return Initialize(gameObject, apiKey, endpointUrl);
         }
 
-        public static InitializeResult Initialize(GameObject target, string apiKey, string endpointUrl = null, EventChannels channels = null)
+        public static InitializeResult Initialize(GameObject target, string apiKey, string endpointUrl = null)
         {
             var gameObjectTracker = GameObjectTracker.Instance;
             MainThreadRunnerExtensions.RegisterMainThreadRunner(MainThreadRunner.Instance);
@@ -29,8 +28,7 @@ namespace ResearchSweet
             var initResult = ResearchSweetHelpers.InitializeResearchSweet(target, options =>
                 {
                     options.UseUnityHandlers(true)
-                    .UseApiKey(apiKey)
-                    .UseEventChannels(channels);
+                    .UseApiKey(apiKey);
 
                     if (!string.IsNullOrEmpty(endpointUrl))
                     {
