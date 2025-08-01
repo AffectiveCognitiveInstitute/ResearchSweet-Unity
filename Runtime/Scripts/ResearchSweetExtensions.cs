@@ -55,6 +55,7 @@ namespace ResearchSweet
         private static void _client_OnError(Exception exception)
         {
             Debug.Log("[ResearchSweet] error!");
+            Debug.Log($"[ResearchSweet] {exception.ToString()}");
             Debug.LogException(exception);
         }
 
