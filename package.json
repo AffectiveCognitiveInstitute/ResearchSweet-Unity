@@ -1,6 +1,6 @@
 {
   "name": "de.researchsweet.unity",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "displayName": "ResearchSweet Unity Client",
   "description": "A Unity package including the ResearchSweet client connector.",
   "unity": "2019.1",
