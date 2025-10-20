@@ -18,14 +18,15 @@ namespace ResearchSweet
 
         void OnEnable()
         {
-            var initResult = ResearchSweetExtensions.Initialize(gameObject, ApiKey, EndpointUrl);
-            ResearchSweetClient = initResult.Client;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            if (ResearchSweetHelpers.Client == null)
+            {
+                var initResult = ResearchSweetExtensions.Initialize(gameObject, ApiKey, EndpointUrl);
+                ResearchSweetClient = initResult.Client;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
