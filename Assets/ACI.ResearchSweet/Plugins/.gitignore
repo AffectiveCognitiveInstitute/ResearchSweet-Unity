@@ -1,0 +1,15 @@
+# ignore NuGet meta files
+*.png
+*.png.meta
+*.txt
+*.txt.meta
+*.md
+*.md.meta
+*.nuspec
+*.nuspec.meta
+*.xml
+*.xml.meta
+*.p7s
+*.p7s.meta
+*.targets
+*.targets.meta
