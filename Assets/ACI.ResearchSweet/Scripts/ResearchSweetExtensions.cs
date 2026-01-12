@@ -1,9 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using ResearchSweet.Tracker;
 using ResearchSweet.Transport;
-using ResearchSweet.Transport.Helpers;
 using UnityEngine;
-using static ResearchSweet.Transport.Helpers.ResearchSweetHelpers;
+using ResearchSweet.Transport.Helpers;
+using ResearchSweetHelpers = ResearchSweet.Helpers.ResearchSweetHelpers;
 
 namespace ResearchSweet
 {
@@ -13,17 +14,17 @@ namespace ResearchSweet
         private static ResearchSweetClient _client;
         private static Task _initTask;
 
-        public static InitializeResult Initialize(string apiKey, string endpointUrl = null)
+        public static ResearchSweetHelpers.InitializeResult Initialize(string apiKey, string endpointUrl = null)
         {
             var gameObject = new GameObject();
             return Initialize(gameObject, apiKey, endpointUrl);
         }
 
-        public static InitializeResult Initialize(GameObject target, string apiKey, string endpointUrl = null)
+        public static ResearchSweetHelpers.InitializeResult Initialize(GameObject target, string apiKey, string endpointUrl = null)
         {
             var gameObjectTracker = GameObjectTracker.Instance;
             MainThreadRunnerExtensions.RegisterMainThreadRunner(MainThreadRunner.Instance);
-            GameObjectTrackerExtensions.RegisterGameObjectTracker(gameObjectTracker);
+            Tracker.GameObjectTrackerExtensions.RegisterGameObjectTracker(gameObjectTracker);
 
             var initResult = ResearchSweetHelpers.InitializeResearchSweet(target, options =>
                 {

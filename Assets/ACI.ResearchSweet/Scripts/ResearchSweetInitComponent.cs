@@ -1,13 +1,14 @@
+using ResearchSweet.Network;
 using ResearchSweet.Transport;
-using ResearchSweet.Transport.Helpers;
 using UnityEngine;
+using ResearchSweetHelpers = ResearchSweet.Helpers.ResearchSweetHelpers;
 
 namespace ResearchSweet
 {
     public class ResearchSweetInitComponent : MonoBehaviour
     {
-        public string EndpointUrl;
-        public string ApiKey;
+        public ConnectionScriptableObject connection;
+        
         //public MyQuestionnairesEventChannelSO MyQuestionnairesChanged;
         //public VariableChangedEventChannelSO VariableChangedEventChannel;
         //public QuestionnaireChangedEventChannelSO QuestionnaireChangedChannel;
@@ -21,7 +22,7 @@ namespace ResearchSweet
         {
             if (ResearchSweetHelpers.Client == null)
             {
-                var initResult = ResearchSweetExtensions.Initialize(gameObject, ApiKey, EndpointUrl);
+                var initResult = ResearchSweetExtensions.Initialize(gameObject, connection.apiKey, connection.endpointUrl);
                 ResearchSweetClient = initResult.Client;
             }
             else

@@ -44,10 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b313d39277e944fb4424b78129dc41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EndpointUrl: https://app.researchsweet.de/Control
-  ApiKey: piZeP)Mr2(%OOHRq%$3F9t9cZ9#T&ZrW
-  MyQuestionnairesChanged: {fileID: 11400000, guid: 0021625b79364964bbe31b6ffe9f53e4, type: 2}
-  VariableChangedEventChannel: {fileID: 11400000, guid: c13daa1f11ec9cc47b214ee5eac9a259, type: 2}
-  QuestionnaireChangedChannel: {fileID: 11400000, guid: 7cdc56dc1d34bbb4f94c8f379c61b123, type: 2}
-  AvailableQuestionnaireDefinitionsChangedChannel: {fileID: 11400000, guid: 320f2bba52f7b4247a581b307b7b2d10, type: 2}
-  RequestScreenshotEventChannel: {fileID: 11400000, guid: 3439982615e1adc4c995e7eeeb591db3, type: 2}
+  connection: {fileID: 11400000, guid: d57628123ec7ddb4eab3ec5a1e9e958d, type: 2}
